@@ -12,7 +12,7 @@ export default function EventCard({ item }: { item: any }) {
       <View style={styles.overlay}>
         <Text style={styles.nome}>{item.nome}</Text>
         <Text style={styles.descricao}>{item.descricao}</Text>
-        <Text style={styles.data}>{dataFormatada}</Text>
+        <Text style={styles.data}>{dataFormatada(item.dataEvento)}</Text>
       </View>
     </ImageBackground>
   );

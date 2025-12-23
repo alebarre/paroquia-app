@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { db } from "../../../firebaseConfig";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
 export default function PrayerRequestScreen() {
-  const [oracoes, setOracoes] = React.useState([]);
+  const [oracoes, setOracoes] = useState([]);
 
   useEffect(() => {
     const fetchOracoes = async () => {
@@ -13,24 +15,19 @@ export default function PrayerRequestScreen() {
         id: doc.id,
         ...doc.data(),
       }));
-
       setOracoes(lista);
     };
-
     fetchOracoes();
   }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Paróquia São Sebastião de Itaipu</Text>
-      <TouchableOpacity style={styles.pedidoButton}>
-        <Text style={styles.pedidoButtonText}>Fazer um Pedido de Oração</Text>
-      </TouchableOpacity>
       <View style={styles.listaPedidos}>
         <Text style={styles.listaPedidosText}>Lista de Pedidos de Oração</Text>
         <FlatList
           data={oracoes}
-          keyExtractor={(index) => index.toString()}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.pedidoItem}>
               <Text style={styles.pedidoTexto}>{item.intencao}</Text>
@@ -42,6 +39,54 @@ export default function PrayerRequestScreen() {
           )}
         />
       </View>
+      <TouchableOpacity style={styles.pedidoButton}>
+        <Text style={styles.pedidoButtonText}>Fazer um Pedido de Oração</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = {
+  container: {
+    flex: 1,
+    marginTop: 30,
+    backgroundColor: "#fff",
+  },
+  header: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingVertical: 20,
+    backgroundColor: "#2f3640",
+    color: "#fff",
+  },
+  pedidoButton: {
+    backgroundColor: "#44bd32",
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  pedidoButtonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  listaPedidos: {
+    flex: 1,
+  },
+  listaPedidosText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  pedidoItem: {
+    backgroundColor: "#f1f2f6",
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  pedidoTexto: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+};
