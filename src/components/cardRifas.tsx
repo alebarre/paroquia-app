@@ -1,8 +1,18 @@
 import React from "react";
 import { View, Text, ImageBackground, StyleSheet } from "react-native";
-import dataFormatada from "../utils/dataFormatada.js";
 
-export default function EventCard({ item }: { item: any }) {
+export default function RaffleCard({ item }: { item: any }) {
+  const dataFormatada = new Date(item.dataRifa.toDate()).toLocaleString(
+    "pt-BR",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
   return (
     <ImageBackground
       source={{ uri: item.imageUrl }}
@@ -12,6 +22,7 @@ export default function EventCard({ item }: { item: any }) {
       <View style={styles.overlay}>
         <Text style={styles.nome}>{item.nome}</Text>
         <Text style={styles.descricao}>{item.descricao}</Text>
+        <Text style={styles.premio}>{item.premio}</Text>
         <Text style={styles.data}>{dataFormatada}</Text>
       </View>
     </ImageBackground>
@@ -40,6 +51,11 @@ const styles = StyleSheet.create({
   descricao: {
     color: "#ddd",
     fontSize: 13,
+  },
+  premio: {
+    color: "#ffd700",
+    fontSize: 14,
+    fontWeight: "600",
   },
   data: {
     color: "#fff",
