@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Modal } from "react-native";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import FormOracao from "../../components/formOracao"
 
 export default function PrayerRequestScreen() {
   const [oracoes, setOracoes] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchOracoes = async () => {
@@ -19,6 +21,10 @@ export default function PrayerRequestScreen() {
     };
     fetchOracoes();
   }, []);
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -39,9 +45,12 @@ export default function PrayerRequestScreen() {
           )}
         />
       </View>
-      <TouchableOpacity style={styles.pedidoButton}>
+      <TouchableOpacity style={styles.pedidoButton} onPress={() => openModal()}>
         <Text style={styles.pedidoButtonText}>Fazer um Pedido de Oração</Text>
       </TouchableOpacity>
+      <Modal visible={modalVisible} animationType="slide">
+        <FormOracao />
+      </Modal>
     </View>
   );
 }
