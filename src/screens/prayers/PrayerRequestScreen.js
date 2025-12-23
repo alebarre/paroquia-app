@@ -30,10 +30,14 @@ export default function PrayerRequestScreen() {
         <Text style={styles.listaPedidosText}>Lista de Pedidos de Oração</Text>
         <FlatList
           data={oracoes}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(index) => index.toString()}
           renderItem={({ item }) => (
             <View style={styles.pedidoItem}>
-              <Text style={styles.pedidoTexto}>{item.texto}</Text>
+              <Text style={styles.pedidoTexto}>{item.intencao}</Text>
+              <Text style={styles.pedidoTexto}>{item.localLeitura}</Text>
+              <Text style={styles.pedidoTexto}>
+                {item.dataOracao.toDate().toLocaleString()}
+              </Text>
             </View>
           )}
         />
