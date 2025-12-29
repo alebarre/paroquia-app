@@ -1,5 +1,5 @@
 import { setDoc, doc } from "firebase/firestore";
-import { db } from "../../firebaseSeed.js";
+import { db } from "./firebaseSeed.js";
 import { v4 as uuidv4 } from "uuid";
 import { Timestamp } from "firebase/firestore";
 
