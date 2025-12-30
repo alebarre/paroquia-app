@@ -1,18 +1,24 @@
+// src/styles/globalStyles.ts
 import { StyleSheet } from 'react-native';
 
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f6fa',
-    padding: 20,
-    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2f3640',
-    textAlign: 'center',
-    marginBottom: 30,
+    padding: 20,
+    marginTop: 61,
+    fontSize: 60,
+    color: '#778E40',
+    textAlign: 'right',
+  },
+  subTitle: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+    fontSize: 30,
+    color: '#000000ff',
+    textAlign: 'right',
   },
   input: {
     borderWidth: 1,
@@ -44,6 +50,17 @@ export const globalStyles = StyleSheet.create({
   },
   buttonLogoutText: {
     color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  // Posicionamento absoluto mais responsivo
+  buttonVoltar: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+  },
+  buttonVoltarText: {
+    color: '#000000ff',
     fontWeight: 'bold',
     fontSize: 16,
   },

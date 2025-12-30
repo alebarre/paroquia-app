@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, ImageBackground } from "react-native";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import EventCard from "../../components/cardEventos.tsx";
@@ -25,6 +25,7 @@ export default function EventScreen() {
 
   return (
     <View style={styles.container}>
+      <ImageBackground source={require('../../../assets/EventosBackground.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover"></ImageBackground>
       <Text style={styles.header}>Paróquia São Sebastião de Itaipu</Text>
 
       <FlatList
