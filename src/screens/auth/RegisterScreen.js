@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ImageBackground,
+  StyleSheet,
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from '../../../firebaseConfig';
 import { globalStyles } from '../../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
+import { signOut } from 'firebase/auth';
 
 export default function RegisterScreen() {
   const [nome, setNome] = useState('');
@@ -12,6 +22,7 @@ export default function RegisterScreen() {
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const handleRegister = async () => {
@@ -20,9 +31,13 @@ export default function RegisterScreen() {
       return;
     }
 
+    setLoading(true);
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
       const user = userCredential.user;
+
+      await sendEmailVerification(user);
 
       await addDoc(collection(db, 'membros'), {
         nome,
@@ -30,34 +45,197 @@ export default function RegisterScreen() {
         telefone,
         email,
         criadoEm: new Date(),
-        ativo: true,
+        ativo: false,
         dizimista: false,
         role: 'membro',
+        verificado: false,
       });
 
-      Alert.alert('Sucesso', 'Conta criada!');
-      navigation.navigate('HomeScreen');
+      await signOut(auth);
+
+      setLoading(false);
+
+      Alert.alert(
+        'Verifique seu email',
+        'Enviamos um link de confirmação para o seu email. Confirme para acessar o aplicativo.'
+      );
+
+      navigation.navigate('Login');
     } catch (error) {
-      Alert.alert('Erro', 'ERRO!!! Por algum motivo, não foi possível criar a conta.', error.message);
+      setLoading(false);
+
+      let mensagem = 'Não foi possível criar a conta.';
+
+      if (error.code === 'auth/email-already-in-use') {
+        mensagem = 'Este email já está em uso.';
+      } else if (error.code === 'auth/invalid-email') {
+        mensagem = 'O email informado é inválido.';
+      } else if (error.code === 'auth/weak-password') {
+        mensagem = 'A senha deve ter pelo menos 6 caracteres.';
+      }
+
+      Alert.alert('Erro no cadastro', mensagem);
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={globalStyles.container}>
-      <Text style={globalStyles.title}>Criar Conta</Text>
+      <View style={globalStyles.container}>
+        <ImageBackground
+          source={require('../../../assets/backgroundHome.png')}
+          style={{ flex: 1, width: '100%', height: '100%' }}
+          resizeMode="cover"
+        >
+          <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB', color: '#466296' }]}>
+            Paróquia de São Sebastião de Itaipu
+          </Text>
 
-      <TextInput style={globalStyles.input} placeholder="Nome" value={nome} onChangeText={setNome} />
-      <TextInput style={globalStyles.input} placeholder="Sobrenome" value={sobrenome} onChangeText={setSobrenome} />
-      <TextInput style={globalStyles.input} placeholder="Telefone" value={telefone} onChangeText={setTelefone} keyboardType="phone-pad" />
-      <TextInput style={globalStyles.input} placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" />
-      <TextInput style={globalStyles.input} placeholder="Senha" value={senha} onChangeText={setSenha} secureTextEntry />
+          <Text style={styles.novoUsuarioText}>Novo Usuário</Text>
 
-      <TouchableOpacity style={globalStyles.button} onPress={handleRegister}>
-        <Text style={globalStyles.buttonText}>Criar Conta</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={globalStyles.link}>Voltar ao login</Text>
-      </TouchableOpacity>
-    </ScrollView>
+          <View style={styles.inputNomeContainer}>
+            <TextInput
+              style={styles.inputNome}
+              placeholder="Nome"
+              value={nome}
+              onChangeText={setNome}
+            />
+          </View>
+
+          <View style={styles.inputSobrenomeContainer}>
+            <TextInput
+              style={styles.inputSobrenome}
+              placeholder="Sobrenome"
+              value={sobrenome}
+              onChangeText={setSobrenome}
+            />
+          </View>
+
+          <View style={styles.inputTelefoneContainer}>
+            <TextInput
+              style={styles.inputTelefone}
+              placeholder="Telefone"
+              value={telefone}
+              onChangeText={setTelefone}
+              keyboardType="phone-pad"
+            />
+          </View>
+
+          <View style={styles.inputEmailContainer}>
+            <TextInput
+              style={styles.inputEmail}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
+          </View>
+
+          <View style={styles.inputSenhaContainer}>
+            <TextInput
+              style={styles.inputSenha}
+              placeholder="Senha"
+              value={senha}
+              onChangeText={setSenha}
+              secureTextEntry
+            />
+          </View>
+
+          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+            <Text style={styles.buttonText}>Cadastrar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.linkVoltar}>Voltar ao login</Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      </View>
   );
 }
+
+const styles = StyleSheet.create({
+  novoUsuarioText: {
+    position: 'absolute',
+    top: 342,
+    left: 34,
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#726767',
+  },
+  inputNomeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 413,
+    left: 34,
+    width: 375,
+    height: 46,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+  },
+  inputNome: { fontSize: 22, width: 300, height: 46 },
+  inputSobrenomeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 475,
+    left: 34,
+    width: 375,
+    height: 46,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+  },
+  inputSobrenome: { fontSize: 22, width: 300, height: 46 },
+  inputTelefoneContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 537,
+    left: 34,
+    width: 375,
+    height: 46,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+  },
+  inputTelefone: { fontSize: 22, width: 300, height: 46 },
+  inputEmailContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 599,
+    left: 34,
+    width: 375,
+    height: 46,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+  },
+  inputEmail: { fontSize: 22, width: 300, height: 46 },
+  inputSenhaContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 661,
+    left: 34,
+    width: 375,
+    height: 46,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+  },
+  inputSenha: { fontSize: 22, width: 300, height: 46 },
+  button: {
+    backgroundColor: '#2257BA',
+    position: 'absolute',
+    top: 750,
+    width: 337,
+    height: 52,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  buttonText: { fontSize: 18, color: '#fff', textAlign: 'center' },
+  linkVoltar: {
+    position: 'absolute',
+    top: 500,
+    right: 55,
+    fontSize: 16,
+    color: '#14508bff',
+  },
+});

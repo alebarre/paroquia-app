@@ -23,21 +23,42 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NavigationProp>();
 
+
+
   const handleLogin = async () => {
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, senha);
-      Alert.alert('Sucesso', 'Login realizado com sucesso!');
-    } catch (error) {
-      Alert.alert('Erro', 'Email ou senha inválidos.');
+      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+      const user = userCredential.user;
+
+      await user.reload(); // <-- ESSENCIAL
+
+      if (!user.emailVerified) {
+        Alert.alert(
+          "Email não verificado",
+          "Confirme seu email antes de acessar o aplicativo."
+        );
+        return;
+      }
+
+
+    } catch (error: any) {
+      let mensagem = "Não foi possível fazer login.";
+
+      if (error.code === "auth/invalid-credential") {
+        mensagem = "Email ou senha incorretos.";
+      }
+
+      Alert.alert("Erro no login", mensagem);
     } finally {
       setLoading(false);
     }
   };
 
   const handleEntrarGoogle = async () => {
-    // Implementar login com Google aqui
+    Alert.alert('Atenção', 'Login com Google ainda não implementado.');
   }
+
 
   return (
     <View style={globalStyles.container}>
@@ -174,7 +195,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 490,
     fontSize: 16,
-    fontWeight  : 'bold',
     color: '#14508bff',
   },
   linkEsqueciSenha: {
