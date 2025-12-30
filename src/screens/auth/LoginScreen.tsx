@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, ImageBackground } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
 import { globalStyles } from '../../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import GoogleLogo from '../../../assets/svg/GoogleLogo';
+import Cadeado from '../../../assets/svg/Cadeado';
+import Arroba from '../../../assets/svg/Arroba';
 
 type RootStackParamList = {
   Login: undefined;
@@ -38,18 +41,23 @@ export default function LoginScreen() {
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.title}>Paróquia São Sebastião de Itaipu</Text>
+      <ImageBackground source={require('../../../assets/backgroundHome.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover">
+      <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB'}]}>Paróquia de São Sebastião de Itaipu</Text>
       <Text style={styles.title}>Entrar</Text>
 
-
+      <View style={styles.inputEmailContainer}>
+      <Arroba width={24} height={24}/>
       <TextInput
         style={styles.inputEmail}
         placeholder="Digite seu email" 
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        autoCapitalize="none">
+      </TextInput>
+      </View>  
+      <View style={styles.inputSenhaContainer}>
+      <Cadeado width={24} height={24}/>
       <TextInput
         style={styles.inputSenha}
         placeholder="Digite sua senha" 
@@ -57,16 +65,19 @@ export default function LoginScreen() {
         onChangeText={setSenha}
         secureTextEntry
       />
+      </View>
 
       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
         <Text style={styles.linkEsqueciSenha}>Esqueci a senha</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.buttonEntrar} onPress={handleLogin} disabled={loading}>
+        
         <Text style={styles.buttonText}>{loading ? 'Entrando...' : 'Acessar'}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.buttonEntrarGoogle} onPress={handleEntrarGoogle} disabled={loading}>
+        <GoogleLogo width={24} height={24} style={{ position: 'absolute', left: 20 }} />
         <Text style={styles.buttonText}>Entrar com Google</Text>
       </TouchableOpacity>
 
@@ -78,7 +89,7 @@ export default function LoginScreen() {
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <Text style={styles.linkCriarConta}>Ainda nao possui conta? CADASTRE-SE</Text>
       </TouchableOpacity>
-
+    </ImageBackground>
     </View>
   );
 }
@@ -93,20 +104,36 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#778E40',
   },
-  inputEmail: {
-    fontSize: 22,
+  inputEmailContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     position: 'absolute',
     top: 468,
     left: 24,
-    width: 337,
+    width: 385,
     height: 46,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+  },
+  inputEmail: {
+    fontSize: 22,
+    width: 300,
+    height: 46,
+  },
+  inputSenhaContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 540,
+    left: 24,
+    width: 385,
+    height: 46,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
   },
   inputSenha: {
     fontFamily: 'Arial',
     fontSize: 22,
-    position: 'absolute',
-    top: 534,
-    left: 24,
     width: 337,
     height: 46,
   },
@@ -143,15 +170,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   linkCriarConta: {
+    alignSelf: 'center',
     position: 'absolute',
-    top: 530,
-    right: 34,
+    top: 490,
     fontSize: 16,
-    color: '#2e86de',
+    fontWeight  : 'bold',
+    color: '#14508bff',
   },
   linkEsqueciSenha: {
     position: 'absolute',
-    top: 255,
+    top: 280,
     right: 34,
     fontSize: 16,
     color: '#2e86de',
