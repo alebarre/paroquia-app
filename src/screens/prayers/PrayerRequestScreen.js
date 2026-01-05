@@ -68,6 +68,11 @@ export default function PrayerRequestScreen() {
               <Text style={styles.pedidoTexto}>
                 {item.dataOracao.toDate().toLocaleString()}
               </Text>
+              <View style={styles.pedidoAcoes}>
+                <TouchableOpacity style={styles.botaoExcluir}>
+                  <Text style={styles.pedidoExcluir}>Excluir</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         />
@@ -128,5 +133,14 @@ const styles = {
   pedidoTexto: {
     fontSize: 16,
     marginBottom: 5,
+  },
+  pedidoAcoes: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  botaoExcluir: {
+    backgroundColor: "#e84118", 
+    padding: 10,
+    borderRadius: 5,
   },
 };
