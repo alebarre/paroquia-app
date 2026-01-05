@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Modal } from "react-native";
 import { db } from "../../../firebaseConfig";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import FormOracao from "../../components/formOracao"
+import { collection, addDoc, getDocs, orderBy, query, Timestamp } from "firebase/firestore";
+import FormOracaoModal from "../../modals/FormOracaoModal.tsx"
 
 export default function PrayerRequestScreen() {
   const [oracoes, setOracoes] = useState([]);
@@ -26,6 +26,33 @@ export default function PrayerRequestScreen() {
     setModalVisible(true);
   };
 
+   const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleSubmitPedido = async (dados) => {
+    try {
+      const novaOracao = {
+        intencao: dados.intencao,
+        localLeitura: dados.localLeitura,
+        dataOracao: Timestamp.now(),
+      };
+      const docRef = await addDoc(collection(db, "oracoes"), novaOracao);
+
+    // Agora adiciona ao estado com o ID correto
+    setOracoes((prevOracoes) => [
+      ...prevOracoes,
+      { id: docRef.id, ...novaOracao }
+    ]);
+
+      alert("Pedido de oração adicionado com sucesso!");
+      closeModal();
+    } catch (error) {
+      console.log("Erro ao adicionar pedido de oração: " + error.message);
+    }
+  };
+  
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Paróquia São Sebastião de Itaipu</Text>
@@ -45,12 +72,16 @@ export default function PrayerRequestScreen() {
           )}
         />
       </View>
-      <TouchableOpacity style={styles.pedidoButton} onPress={() => openModal()}>
+      <TouchableOpacity style={styles.pedidoButton} onPress={openModal}>
         <Text style={styles.pedidoButtonText}>Fazer um Pedido de Oração</Text>
       </TouchableOpacity>
-      <Modal visible={modalVisible} animationType="slide">
-        <FormOracao />
-      </Modal>
+
+      <FormOracaoModal
+        visible={modalVisible}
+        onClose={closeModal}
+        onSubmit={handleSubmitPedido}
+      />
+
     </View>
   );
 }

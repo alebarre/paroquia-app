@@ -1,19 +1,19 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
 import dataFormatada from "../utils/dataFormatada.js";
 
-export default function EventCard({ item }: { item: any }) {
+export default function EventCard({ item, onPress }: { item: any; onPress: () => void }) {
   return (
     <ImageBackground
       source={{ uri: item.imageUrl }}
       style={styles.card}
       imageStyle={{ borderRadius: 12 }}
     >
-      <View style={styles.overlay}>
+      <TouchableOpacity style={styles.overlay} onPress={onPress}>
         <Text style={styles.nome}>{item.nome}</Text>
         <Text style={styles.descricao}>{item.descricao}</Text>
         <Text style={styles.data}>{dataFormatada(item.dataEvento)}</Text>
-      </View>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
