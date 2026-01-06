@@ -20,7 +20,7 @@ export default function AvisoOracao({ onClose }: AvisoOracaoProps) {
                 <Text style={styles.subtitulo}>Horários das Missas:</Text>
 
                 <Text style={styles.horarios}>
-                    07:00 • 08:00 • 09:00 • 10:00 • 17:00 • 17:00 • 19:00
+                    07:00 • 08:00 • 09:00 • 10:00 • 17:00 • 19:00
                 </Text>
 
                 <Text style={styles.horaAtual}>
