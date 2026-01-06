@@ -71,7 +71,6 @@ export default function FormOracaoModal({ visible, onClose, onSubmit }: Props) {
     if (onSubmit) {
       onSubmit({ intencao, localLeitura: localSelecionado, nomeDeQuemPede });
     }
-    // limpar o formulário depois de enviar:
     setIntencao("");
     setLocalLeitura("");
     setLocalSelecionado("");

@@ -15,6 +15,12 @@ import { auth, db } from '../../../firebaseConfig';
 import { globalStyles } from '../../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
+import User from '../../../assets/svg/User';
+import Users from '../../../assets/svg/Users';
+import Cadeado from '../../../assets/svg/Cadeado';
+import Arroba from '../../../assets/svg/Arroba';
+import Telefone from '../../../assets/svg/Telefone';
+
 
 export default function RegisterScreen() {
   const [nome, setNome] = useState('');
@@ -92,6 +98,7 @@ export default function RegisterScreen() {
           <Text style={styles.novoUsuarioText}>Novo Usuário</Text>
 
           <View style={styles.inputNomeContainer}>
+            <User /> 
             <TextInput
               style={styles.inputNome}
               placeholder="Nome"
@@ -101,6 +108,7 @@ export default function RegisterScreen() {
           </View>
 
           <View style={styles.inputSobrenomeContainer}>
+            <Users />
             <TextInput
               style={styles.inputSobrenome}
               placeholder="Sobrenome"
@@ -110,6 +118,7 @@ export default function RegisterScreen() {
           </View>
 
           <View style={styles.inputTelefoneContainer}>
+            <Telefone />
             <TextInput
               style={styles.inputTelefone}
               placeholder="Telefone"
@@ -120,6 +129,7 @@ export default function RegisterScreen() {
           </View>
 
           <View style={styles.inputEmailContainer}>
+            <Arroba />
             <TextInput
               style={styles.inputEmail}
               placeholder="Email"
@@ -130,6 +140,7 @@ export default function RegisterScreen() {
           </View>
 
           <View style={styles.inputSenhaContainer}>
+            <Cadeado />
             <TextInput
               style={styles.inputSenha}
               placeholder="Senha"
