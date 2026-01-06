@@ -159,7 +159,7 @@ const styles = {
     marginVertical: 10,
     padding: 8,
     width: "100%",
-    backgroundColor: "#f0a05fb4",
+    backgroundColor: "#a3723350",
     borderRadius: 10,
   },
 
@@ -189,7 +189,7 @@ const styles = {
   },
 
   botaoExcluir: {
-    backgroundColor: "#e84118",
+    backgroundColor: "#6d1c08ff",
     padding: 10,
     borderRadius: 5,
   },
@@ -201,7 +201,7 @@ const styles = {
   },
 
   pedidoButton: {
-    backgroundColor: "#c03939bb",
+    backgroundColor: "#6d470dd0",
     padding: 15,
     borderRadius: 5,
     margin: 20,
