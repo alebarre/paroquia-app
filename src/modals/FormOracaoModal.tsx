@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   StyleSheet,
@@ -10,26 +10,76 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+import { Picker } from '@react-native-picker/picker';
+
 
 type Props = {
   visible: boolean;
   onClose: () => void;
-  onSubmit?: (dados: { localLeitura: string; intencao: string }) => void;
+  onSubmit: (data: {
+    nomeDeQuemPede: string;
+    intencao: string;
+    localLeitura: string;
+  }) => void;
 };
 
 export default function FormOracaoModal({ visible, onClose, onSubmit }: Props) {
   const [intencao, setIntencao] = useState("");
   const [localLeitura, setLocalLeitura] = useState("");
+  const [nomeDeQuemPede, setNomeDeQuemPede] = useState("");
+  const [locais, setLocais] = useState<Array<{ id: string; nome: string }>>([]);
+  const [localSelecionado, setLocalSelecionado] = useState("");
+
+
+  useEffect(() => {
+  setLocalLeitura("");
+  const carregarLocais = async () => {
+    try {
+      const snapshot = await getDocs(collection(db, "locais"));
+      const lista = snapshot.docs.map(doc => ({
+        id: doc.id,
+        nome: doc.data().nome as string
+      }));
+      setLocais(lista);
+      console.log("Locais carregados: ", lista);
+    } catch (error) {
+      console.log("Erro ao carregar locais: ", error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  carregarLocais();
+}, []);
 
   const handleEnviar = () => {
+    const erroMessage = [];
+    if (!nomeDeQuemPede.trim()) {
+      erroMessage.push("nome de quem está pedindo");
+    }
+    if (!localSelecionado) {
+      erroMessage.push("local onde será lido");
+    }
+    if (!intencao.trim()) {
+      erroMessage.push("intenção");
+    }
+    if (erroMessage.length > 0) {
+      alert("Os seguintes campos estão faltando:\n ▪️" + erroMessage.join("\n ▪️") + (erroMessage.length > 1 ? "." : "."));
+      return;
+    }
+    console.log("Local selecionado: ", localSelecionado);
     if (onSubmit) {
-      onSubmit({ intencao, localLeitura });
+      onSubmit({ intencao, localLeitura: localSelecionado, nomeDeQuemPede });
     }
     // limpar o formulário depois de enviar:
     setIntencao("");
     setLocalLeitura("");
+    setLocalSelecionado("");
+    setNomeDeQuemPede("");
     onClose();
   };
+
+  const locaisValidos = locais.filter((loc) => typeof loc.nome === "string" && loc.nome.trim() !== "");
 
   return (
     <Modal visible={visible} transparent animationType="fade">
@@ -47,11 +97,27 @@ export default function FormOracaoModal({ visible, onClose, onSubmit }: Props) {
             >
 
               <TextInput
-                placeholder="Onde vai ser lido (opcional)"
+                placeholder="Quem está pedindo? (opcional)"
                 style={styles.input}
-                value={localLeitura}
-                onChangeText={setLocalLeitura}
+                value={nomeDeQuemPede}
+                onChangeText={setNomeDeQuemPede}
               />
+
+              <Text style={styles.pickerLabel}>Onde será lido:</Text>
+              <View style={styles.pickerContainer}>
+                <Picker
+                  
+                  selectedValue={localSelecionado}
+                  onValueChange={(valor) => setLocalSelecionado(valor)}
+                  style={styles.picker}
+                >
+                  <Picker.Item label="Selecione um local" value="" />
+
+                  {locaisValidos.map((loc) => (
+                    <Picker.Item key={loc.id} label={loc.nome} value={loc.nome} />
+                  ))}
+                </Picker>
+              </View>
 
               <TextInput
                 placeholder="Seu pedido de oração"
@@ -95,11 +161,11 @@ const styles = StyleSheet.create({
   modalBox: {
     width: "85%",
     maxHeight: "80%",
-    backgroundColor: "#fff",
     borderRadius: 12,
     paddingTop: 16,
     paddingHorizontal: 16,
     paddingBottom: 10,
+    backgroundColor: "#ffffffbb",
   },
   header: {
     fontSize: 20,
@@ -145,4 +211,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
   },
+
+  pickerContainer: {
+  backgroundColor: "#fff",
+  borderRadius: 8,
+  borderWidth: 1,
+  borderColor: "#ccc",
+  marginBottom: 15,
+},
+picker: {
+  height: 50,
+  width: "100%",
+},
+pickerLabel: {
+  fontSize: 16,
+  marginBottom: 8,
+}
+
 });

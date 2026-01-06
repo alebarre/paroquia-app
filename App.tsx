@@ -5,14 +5,17 @@ import { auth } from './firebaseConfig';
 import AppNavigator from './src/navigation/AppNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import { ActivityIndicator, View } from 'react-native';
-import { atualizarEventosMock } from './src/seeds/atualizarEventosMock';
+import { useFonts } from 'expo-font';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
 
+  const [fontsLoaded] = useFonts({
+    'SeoulHangang-CEB': require('./assets/fonts/seoulhangang-ceb.ttf'),
+  });
+
   useEffect(() => {
-    //atualizarEventosMock();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoadingAuth(false);
@@ -21,7 +24,7 @@ export default function App() {
     return unsubscribe;
   }, []);
 
-  if (loadingAuth) {
+  if (!fontsLoaded || loadingAuth) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
@@ -36,8 +39,4 @@ export default function App() {
       {isVerified ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
-}
-
-function adicionarCampos() {
-  throw new Error('Function not implemented.');
 }
