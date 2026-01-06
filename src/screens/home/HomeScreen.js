@@ -20,9 +20,9 @@ export default function HomeScreen() {
   return (
      <View style={globalStyles.container}>
       <ImageBackground source={require('../../../assets/backgroundHome.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover">
-        <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB'}]}>Paróquia São Sebastião de Itaipu</Text>
+        <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB', fontSize: 90 }]} >Paróquia de São Sebastião de Itaipu</Text>
 
-        <Text style={globalStyles.subTitle}>
+        <Text style={[globalStyles.subTitle, { fontFamily: 'SeoulHangang-CEB', fontSize: 35, color: '#00000098' }]}>
           Aqui você acompanha os eventos, rifas, dízimos e muito mais.
         </Text>
         <TouchableOpacity style={globalStyles.buttonVoltar} onPress={handleLogout}>

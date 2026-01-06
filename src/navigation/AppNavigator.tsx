@@ -17,8 +17,17 @@ export default function AppNavigator() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: '#2f3640',
-        tabBarInactiveTintColor: '#aaa',
+        tabBarBadgeStyle: { backgroundColor: '#ff6347' },
+        tabBarStyle: {
+          paddingTop: 5, 
+          width: '100%',
+          height: 80,
+          backgroundColor: '#2c3e50ff',
+          borderTopColor: '#1a252fff',
+        },
+        tabBarActiveBackgroundColor: '#5783afff',
+        tabBarActiveTintColor: '#d8dfe9ff',
+        tabBarInactiveTintColor: '#7694bbff',
         tabBarIcon: ({ color, size }) => {
           let iconName: string;
 
