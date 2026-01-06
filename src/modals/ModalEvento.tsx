@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   modalBox: {
     width: "85%",
     height: "75%",
-    backgroundColor: "#ffffffb0",
+    backgroundColor: "#ffffffc9",
     borderRadius: 12,
     overflow: "hidden",
   },
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   headerOverlay: {
-    backgroundColor: "rgba(0,0,0,0.45)",
+    backgroundColor: "rgba(0, 0, 0, 0.63)",
     padding: 12,
   },
   titulo: {

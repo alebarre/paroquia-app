@@ -14,10 +14,12 @@ import {
 
 import FormOracaoModal from "../../modals/FormOracaoModal.tsx";
 import TituloParoquia from "../../components/tituloParaoquia";
+import AvisoOracao from "../../components/avisoOracao";
 
 export default function PrayerRequestScreen() {
   const [oracoes, setOracoes] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [avisoVisible, setAvisoVisible] = useState(true);
 
   useEffect(() => {
     const fetchOracoes = async () => {
@@ -75,6 +77,7 @@ const handleExcluirPedido = async (item) => {
       <ImageBackground source={require('../../../assets/backgroundHome.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover">
       
       <TituloParoquia />
+      {avisoVisible && <AvisoOracao onClose={() => setAvisoVisible(false)}/>}
 
       <View style={styles.listaPedidos}>
         <Text style={styles.labelPedidosText}>Orações que pedi.</Text>

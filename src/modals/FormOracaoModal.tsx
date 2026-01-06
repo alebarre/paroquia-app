@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalBox: {
-    width: "85%",
-    maxHeight: "80%",
+    width: 400,
+    maxHeight: "95%",
     borderRadius: 12,
     paddingTop: 16,
     paddingHorizontal: 16,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   content: {
-    maxHeight: 280,
+    maxHeight: 380,
   },
   input: {
     borderColor: "gray",
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   textArea: {
-    height: 120,
+    height: 150,
     textAlignVertical: "top",
   },
   footerButtons: {
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FFFFFF",
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 16,
   },
 
   pickerContainer: {
