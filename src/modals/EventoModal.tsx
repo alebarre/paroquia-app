@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import dataFormatada from "../utils/dataFormatada";
 
-interface ModalEventoProps {
+interface EventoModalProps {
   visible: boolean;
   evento: any;
   onClose: () => void;
 }
 
-export default function ModalEvento({ visible, evento, onClose }: ModalEventoProps) {
+export default function EventoModal({ visible, evento, onClose }: EventoModalProps) {
   if (!evento) return null;
 
   return (

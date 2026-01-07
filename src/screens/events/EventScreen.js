@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, ImageBackground, RefreshControl } fro
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import EventCard from "../../components/cardEventos.tsx";
-import ModalEvento from "../../modals/ModalEvento.tsx"
+import EventoModal from "../../modals/EventoModal"
 
 export default function EventScreen() {
   const [eventos, setEventos] = useState([]);
@@ -61,7 +61,7 @@ export default function EventScreen() {
         }
       />
 
-      <ModalEvento
+      <EventoModal
         visible={modalVisible}
         evento={eventoSelecionado}
         onClose={() => setModalVisible(false)}

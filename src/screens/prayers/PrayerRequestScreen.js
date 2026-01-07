@@ -107,7 +107,10 @@ const handleExcluirPedido = async (item) => {
                 <View style={styles.itemContainer}>
                   <Text style={styles.pedidoTextoLabel}>Quando: </Text>
                   <Text style={styles.pedidoTexto}>
-                    {item.dataOracao.toDate().toLocaleString()}
+                    {item.dataOracao.toDate().toLocaleString('pt-BR', { 
+                      dateStyle: 'short', 
+                      timeStyle: 'short' 
+                    })}
                   </Text>
                 </View>
               </View>
@@ -208,6 +211,7 @@ const styles = {
     padding: 15,
     borderRadius: 5,
     margin: 20,
+    borderRadius: 30,
   },
 
   pedidoButtonText: {
