@@ -31,7 +31,7 @@ export default function LoginScreen() {
       const userCredential = await signInWithEmailAndPassword(auth, email, senha);
       const user = userCredential.user;
 
-      await user.reload(); // <-- ESSENCIAL
+      await user.reload(); 
 
       if (!user.emailVerified) {
         Alert.alert(
