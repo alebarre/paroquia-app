@@ -104,121 +104,139 @@ const atualizarCadastro = async (dados) => {
 };
 
 return (
-    <ScrollView style={globalStyles.container}>
-        <ImageBackground source={require('../../../assets/backgroundHome.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover">
-        
-        {/* aviso de cadastro desatualizado */}
-        {modalVisible && (
+  <ScrollView 
+    style={globalStyles.container}
+    contentContainerStyle={{ flexGrow: 1 }}
+  >
+    <ImageBackground
+      source={require('../../../assets/backgroundHome.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      {/* aviso de cadastro desatualizado */}
+      {modalVisible && (
         <AtualizaarDadosModal
-            visible={modalVisible}
-            onClose={() => setModalVisible(false)}
-            onAtualizar={() => {
-                setModalVisible(false);
-                setFormModalVisible(true);
-            }}
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onAtualizar={() => {
+            setModalVisible(false);
+            setFormModalVisible(true);
+          }}
         />
+      )}
 
-        )}
-
-        {/* modal form atualização de cadastro */}
-        {FormModalVisible && (
+      {/* modal form atualização de cadastro */}
+      {FormModalVisible && (
         <FormAtualizarCadastroModal
-            visible={FormModalVisible}
-            onClose={() => setFormModalVisible(false)}
-            onSubmit={atualizarCadastro}
+          visible={FormModalVisible}
+          onClose={() => setFormModalVisible(false)}
+          onSubmit={atualizarCadastro}
         />
-        )} 
+      )}
 
-        <TituloParoquia />
-        <Text style={styles.header}>Perfil de usuário</Text>
-        <View style={styles.userContainer}>
-            <Text style={styles.user}>{dadosUsuario.nome}</Text>
-            <Text style={styles.email}>{dadosUsuario.email}</Text>
+      <TituloParoquia />
+
+      <Text style={styles.header}>Perfil de usuário</Text>
+
+      <View style={styles.userContainer}>
+        <Text style={styles.user}>{dadosUsuario.nome}</Text>
+        <Text style={styles.email}>{dadosUsuario.email}</Text>
+      </View>
+
+      <View style={styles.addressContainer}>
+        <View style={styles.campoContainer}>
+          <Text style={styles.label}>CEP:</Text>
+          <Text style={styles.campo}>{enderecoUsuario.cep}</Text>
         </View>
-        <View style={styles.addressContainer}>
-            <View style={styles.campoContainer}>
-                <Text style={styles.label}>CEP:</Text>
-                <Text style={styles.campo}>{enderecoUsuario.cep}</Text>
-            </View>
-            <View style={styles.campoContainer}>
-                <Text style={styles.label}>Logradouro:</Text>
-                <Text style={styles.campo}>{enderecoUsuario.logradouro}</Text>
-            </View>
-            <View style={styles.campoContainer}>
-                <Text style={styles.label}>Complemento:</Text>
-                <Text style={styles.campo}>{enderecoUsuario.complemento}</Text>
-            </View>
-            <View style={styles.campoContainer}>
-                <Text style={styles.label}>Bairro:</Text>
-                <Text style={styles.campo}>{enderecoUsuario.bairro}</Text>
-            </View>
-            <View style={styles.campoContainer}>
-                <Text style={styles.label}>Cidade:</Text>
-                <Text style={styles.campo}>{enderecoUsuario.cidade}</Text>
-            </View>
-            <View style={styles.campoContainer}>
-                <Text style={styles.label}>UF:</Text>
-                <Text style={styles.campo}>{enderecoUsuario.uf}</Text>
-            </View>
+
+        <View style={styles.campoContainer}>
+          <Text style={styles.label}>Logradouro:</Text>
+          <Text style={styles.campo}>{enderecoUsuario.logradouro}</Text>
         </View>
-        </ImageBackground>
-    </ScrollView>
+
+        <View style={styles.campoContainer}>
+          <Text style={styles.label}>Complemento:</Text>
+          <Text style={styles.campo}>{enderecoUsuario.complemento}</Text>
+        </View>
+
+        <View style={styles.campoContainer}>
+          <Text style={styles.label}>Bairro:</Text>
+          <Text style={styles.campo}>{enderecoUsuario.bairro}</Text>
+        </View>
+
+        <View style={styles.campoContainer}>
+          <Text style={styles.label}>Cidade:</Text>
+          <Text style={styles.campo}>{enderecoUsuario.cidade}</Text>
+        </View>
+
+        <View style={styles.campoContainer}>
+          <Text style={styles.label}>UF:</Text>
+          <Text style={styles.campo}>{enderecoUsuario.uf}</Text>
+        </View>
+      </View>
+    </ImageBackground>
+  </ScrollView>
 );
+
 }
 
 
 const styles = StyleSheet.create({
-    header: {
-        color: '#00000093',
-        fontSize: 42,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    userContainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        margin: 20,
-        padding: 20,
-        backgroundColor: '#0a1d8a41',
-        borderRadius: 10,
-    },
+  background: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 80,
+    paddingBottom: 40, // evita corte no final
+  },
 
-    user: {
-        fontSize: 40,
-        fontWeight: 'bold',
-    },
-    email: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#2b2121ff',
-    },
-    
-    addressContainer: {
-        margin: 20,
-        padding: 20,
-        backgroundColor: '#0a1d8a41',
-        borderRadius: 10,
-    },
+  header: {
+    color: '#00000093',
+    fontSize: 42,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
 
-    campoContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
+  userContainer: {
+    margin: 2,
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#0a1d8a41',
+    borderRadius: 10,
+  },
 
+  user: {
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
 
-    label: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        width: "40%",
-    },
+  email: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#2b2121ff',
+  },
 
-    campo: {
-        fontSize: 16,
-        flexShrink: 1,
-    },
+  addressContainer: {
+    margin: 2,
+    padding: 10,
+    backgroundColor: '#0a1d8a41',
+    borderRadius: 10,
+  },
 
+  campoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
 
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    width: '40%',
+  },
 
-    
+  campo: {
+    fontSize: 16,
+    flexShrink: 1,
+  },
 });

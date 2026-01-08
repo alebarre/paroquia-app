@@ -8,6 +8,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import GoogleLogo from '../../../assets/svg/GoogleLogo';
 import Cadeado from '../../../assets/svg/Cadeado';
 import Arroba from '../../../assets/svg/Arroba';
+import TituloParoquia from '../../components/tituloParaoquia';
 
 type RootStackParamList = {
   Login: undefined;
@@ -59,150 +60,182 @@ export default function LoginScreen() {
     Alert.alert('Atenção', 'Login com Google ainda não implementado.');
   }
 
-
   return (
-    <View style={globalStyles.container}>
-      <ImageBackground source={require('../../../assets/backgroundHome.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover">
-      <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB'}]}>Paróquia de São Sebastião de Itaipu</Text>
-      <Text style={styles.title}>Entrar</Text>
+  <View style={styles.container}>
+    <ImageBackground
+      source={require('../../../assets/backgroundHome.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <TituloParoquia />
 
-      <View style={styles.inputEmailContainer}>
-      <Arroba width={24} height={24}/>
-      <TextInput
-        style={styles.inputEmail}
-        placeholder="Digite seu email" 
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none">
-      </TextInput>
-      </View>  
-      <View style={styles.inputSenhaContainer}>
-      <Cadeado width={24} height={24}/>
-      <TextInput
-        style={styles.inputSenha}
-        placeholder="Digite sua senha" 
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
-      />
+      {/* Subtítulo */}
+      <Text style={styles.textEntrar}>Entrar</Text>
+
+      {/* Campo Email */}
+      <View style={styles.inputRow}>
+        <Arroba width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Digite seu email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
       </View>
 
+      {/* Campo Senha */}
+      <View style={styles.inputRow}>
+        <Cadeado width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Digite sua senha"
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
+        />
+      </View>
+
+      {/* Esqueci a senha */}
       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
         <Text style={styles.linkEsqueciSenha}>Esqueci a senha</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonEntrar} onPress={handleLogin} disabled={loading}>
-        
-        <Text style={styles.buttonText}>{loading ? 'Entrando...' : 'Acessar'}</Text>
+      {/* Botão Entrar */}
+      <TouchableOpacity
+        style={styles.buttonEntrar}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>
+          {loading ? 'Entrando...' : 'Acessar'}
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonEntrarGoogle} onPress={handleEntrarGoogle} disabled={loading}>
-        <GoogleLogo width={24} height={24} style={{ position: 'absolute', left: 20 }} />
+      {/* OU */}
+      <Text style={styles.textOu}>Ou</Text>
+
+      {/* Botão Google */}
+      <TouchableOpacity
+        style={styles.buttonEntrarGoogle}
+        onPress={handleEntrarGoogle}
+        disabled={loading}
+      >
+        <GoogleLogo width={24} height={24} style={styles.googleIcon} />
         <Text style={styles.buttonText}>Entrar com Google</Text>
       </TouchableOpacity>
 
-      <Text
-        style={styles.textOu}
-      >
-        Ou
-      </Text> 
+      {/* Criar conta */}
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.linkCriarConta}>Ainda nao possui conta? CADASTRE-SE</Text>
+        <Text style={styles.linkCriarConta}>
+          Ainda não possui conta? <Text style={styles.bold}>CADASTRE-SE</Text>
+        </Text>
       </TouchableOpacity>
     </ImageBackground>
-    </View>
-  );
-}
+  </View>
+);}
 
 const styles = StyleSheet.create({
-  title: {
-    position: 'absolute',
-    top: 401,
-    left: 24,
-    fontSize: 36,
+  container: {
+    flex: 1,
+  },
+
+  background: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 80,
+  },
+
+  paroquiaTitle: {
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 40,
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 4,
+  },
+
+  textEntrar: {
+    fontSize: 32,
+    fontWeight: 'bold',
     color: '#778E40',
+    textAlign: 'left',
+    marginBottom: 10,
   },
-  inputEmailContainer: {
+
+  inputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
-    top: 468,
-    left: 24,
-    width: 385,
-    height: 46,
     borderBottomWidth: 1,
     borderBottomColor: '#000',
+    marginBottom: 15,
+    paddingBottom: 6,
   },
-  inputEmail: {
-    fontSize: 22,
-    width: 300,
-    height: 46,
+
+  icon: {
+    marginRight: 10,
   },
-  inputSenhaContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 540,
-    left: 24,
-    width: 385,
-    height: 46,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-  },
-  inputSenha: {
-    fontFamily: 'Arial',
-    fontSize: 22,
-    width: 337,
-    height: 46,
-  },
-  buttonEntrar: {
-    backgroundColor: '#746e4bff',
-    position: 'absolute',
-    top: 650,
-    width: 337,
-    height: 52,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
-  textOu: {
-    position: 'absolute',
-    top: 710,
-    alignSelf: 'center',
-    fontSize: 16,
+
+  input: {
+    flex: 1,
+    fontSize: 20,
     color: '#000',
   },
-  buttonEntrarGoogle: {
-    backgroundColor: '#C3C3C3',
-    position: 'absolute',
-    top: 740,
-    width: 337,
+
+  linkEsqueciSenha: {
+    alignSelf: 'flex-end',
+    fontSize: 16,
+    color: '#2e86de',
+    marginBottom: 30,
+  },
+
+  buttonEntrar: {
+    backgroundColor: '#746e4b',
     height: 52,
     borderRadius: 30,
     justifyContent: 'center',
-    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
   },
+
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    textAlign: 'center',
-  },
-  linkCriarConta: {
-    alignSelf: 'center',
-    position: 'absolute',
-    top: 490,
-    fontSize: 16,
-    color: '#14508bff',
-  },
-  linkEsqueciSenha: {
-    position: 'absolute',
-    top: 280,
-    right: 34,
-    fontSize: 16,
-    color: '#2e86de',
+    fontWeight: 'bold',
   },
 
+  textOu: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#000',
+    marginBottom: 10,
+  },
+
+  buttonEntrarGoogle: {
+    backgroundColor: '#C3C3C3',
+    height: 52,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 30,
+    position: 'relative',
+  },
+
+  googleIcon: {
+    position: 'absolute',
+    left: 20,
+  },
+
+  linkCriarConta: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#14508b',
+  },
+
+  bold: {
+    fontWeight: 'bold',
+  },
 });

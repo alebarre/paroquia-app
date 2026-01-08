@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, ImageBackground, StyleSheet } from 'react-native';
-import { globalStyles } from '../../styles/globalStyles';
+import { View, Text, TextInput, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { Dimensions, StyleSheet } from 'react-native';
 import { db, auth } from '../../../firebaseConfig';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import Arroba from '../../../assets/svg/Arroba';
+import TituloParoquia from '../../components/tituloParaoquia';
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState('');
@@ -36,82 +36,104 @@ const handleReset = async () => {
 
 
   return (
-    <View style={globalStyles.container}>
-      <ImageBackground source={require('../../../assets/BackgroundEsqueci.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover">
-      <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB', color: '#8E4069'}]}>Paróquia de São Sebastião de Itaipu</Text>
-      <Text style={[styles.esqueci]}>Esqeueci</Text>
+  <View style={styles.container}>
+    <ImageBackground
+      source={require('../../../assets/BackgroundEsqueci.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <TituloParoquia />
 
-      <View style={styles.inputEmailContainer}>
-      <Arroba width={24} height={24}/>
-      <TextInput
-        style={styles.inputEmail}
-        placeholder="Email cadastrado" 
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none">
-      </TextInput>
+      <Text style={styles.title}>Esqueci</Text>
+
+      <View style={styles.inputRow}>
+        <Arroba width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email cadastrado"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleReset} disabled={loading}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleReset}
+        disabled={loading}
+      >
         <Text style={styles.buttonText}>
           {loading ? 'Enviando...' : 'Enviar código de recuperação'}
         </Text>
       </TouchableOpacity>
+
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.linkVoltar}>Voltar ao login</Text>
       </TouchableOpacity>
-      </ImageBackground>
-    </View>
-  );
+    </ImageBackground>
+  </View>
+);
 }
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-  esqueci: {
-    position: 'absolute',
-    top: 342,
-    left: 34,
-    fontSize: 36, 
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#726767',
+  container: {
+    flex: 1,
   },
-  inputEmailContainer: {
+
+  background: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 80,
+  },
+
+  title: {
+    fontSize: width * 0.065,
+    fontWeight: 'bold',
+    color: '#726767',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+
+  inputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
-    top: 413,
-    left: 34,
-    width: 385,
-    height: 46,
     borderBottomWidth: 1,
     borderBottomColor: '#000',
+    marginBottom: 10,
+    paddingBottom: 6,
   },
-  inputEmail: {
-    fontSize: 22,
-    width: 300,
-    height: 46,
+
+  icon: {
+    marginRight: 10,
   },
-    button: {
+
+  input: {
+    flex: 1,
+    fontSize: 20,
+    color: '#000',
+  },
+
+  button: {
     backgroundColor: '#BA227D',
-    position: 'absolute',
-    top: 490,
-    width: 337,
     height: 52,
     borderRadius: 30,
     justifyContent: 'center',
-    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: 5,
   },
+
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    textAlign: 'center',
+    fontWeight: 'bold',
   },
+
   linkVoltar: {
-    position: 'absolute',
-    top: 240,
-    right: 55, 
-    fontSize: 16, 
-    color: '#14508bff',
+    textAlign: 'right',
+    fontSize: 16,
+    color: '#14508b',
   },
 });

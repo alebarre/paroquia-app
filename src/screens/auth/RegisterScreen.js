@@ -6,13 +6,10 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
-  StyleSheet,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from '../../../firebaseConfig';
-import { globalStyles } from '../../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
 import User from '../../../assets/svg/User';
@@ -20,7 +17,10 @@ import Users from '../../../assets/svg/Users';
 import Cadeado from '../../../assets/svg/Cadeado';
 import Arroba from '../../../assets/svg/Arroba';
 import Telefone from '../../../assets/svg/Telefone';
+import { Dimensions, StyleSheet } from 'react-native';
+import TituloParoquia from '../../components/tituloParaoquia';
 
+const { width } = Dimensions.get('window');
 
 export default function RegisterScreen() {
   const [nome, setNome] = useState('');
@@ -85,168 +85,146 @@ export default function RegisterScreen() {
   };
 
   return (
-      <View style={globalStyles.container}>
-        <ImageBackground
-          source={require('../../../assets/backgroundHome.png')}
-          style={{ flex: 1, width: '100%', height: '100%' }}
-          resizeMode="cover"
-        >
-          <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB', color: '#466296' }]}>
-            Paróquia de São Sebastião de Itaipu
-          </Text>
+  <View style={styles.container}>
+    <ImageBackground
+      source={require('../../../assets/backgroundHome.png')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <TituloParoquia />
 
-          <Text style={styles.novoUsuarioText}>Novo Usuário</Text>
+      <Text style={styles.title}>Novo Usuário</Text>
 
-          <View style={styles.inputNomeContainer}>
-            <User /> 
-            <TextInput
-              style={styles.inputNome}
-              placeholder="Nome"
-              value={nome}
-              onChangeText={setNome}
-            />
-          </View>
-
-          <View style={styles.inputSobrenomeContainer}>
-            <Users />
-            <TextInput
-              style={styles.inputSobrenome}
-              placeholder="Sobrenome"
-              value={sobrenome}
-              onChangeText={setSobrenome}
-            />
-          </View>
-
-          <View style={styles.inputTelefoneContainer}>
-            <Telefone />
-            <TextInput
-              style={styles.inputTelefone}
-              placeholder="Telefone"
-              value={telefone}
-              onChangeText={setTelefone}
-              keyboardType="phone-pad"
-            />
-          </View>
-
-          <View style={styles.inputEmailContainer}>
-            <Arroba />
-            <TextInput
-              style={styles.inputEmail}
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-            />
-          </View>
-
-          <View style={styles.inputSenhaContainer}>
-            <Cadeado />
-            <TextInput
-              style={styles.inputSenha}
-              placeholder="Senha"
-              value={senha}
-              onChangeText={setSenha}
-              secureTextEntry
-            />
-          </View>
-
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Cadastrar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.linkVoltar}>Voltar ao login</Text>
-          </TouchableOpacity>
-        </ImageBackground>
+      {/* Nome */}
+      <View style={styles.inputRow}>
+        <User width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Nome"
+          value={nome}
+          onChangeText={setNome}
+        />
       </View>
+
+      {/* Sobrenome */}
+      <View style={styles.inputRow}>
+        <Users width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Sobrenome"
+          value={sobrenome}
+          onChangeText={setSobrenome}
+        />
+      </View>
+
+      {/* Telefone */}
+      <View style={styles.inputRow}>
+        <Telefone width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Telefone"
+          value={telefone}
+          onChangeText={setTelefone}
+          keyboardType="phone-pad"
+        />
+      </View>
+
+      {/* Email */}
+      <View style={styles.inputRow}>
+        <Arroba width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+      </View>
+
+      {/* Senha */}
+      <View style={styles.inputRow}>
+        <Cadeado width={24} height={24} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
+        />
+      </View>
+
+      {/* Botão cadastrar */}
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Cadastrar</Text>
+      </TouchableOpacity>
+
+      {/* Voltar */}
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.linkVoltar}>Voltar ao login</Text>
+      </TouchableOpacity>
+    </ImageBackground>
+  </View>
   );
 }
 
 const styles = StyleSheet.create({
-  novoUsuarioText: {
-    position: 'absolute',
-    top: 342,
-    left: 34,
-    fontSize: 36,
+  container: {
+    flex: 1,
+  },
+
+  background: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 80,
+  },
+
+  title: {
+    fontSize: width * 0.065,
     fontWeight: 'bold',
     color: '#726767',
+    textAlign: 'center',
+    marginBottom: 20,
   },
-  inputNomeContainer: {
+
+  inputRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
-    top: 413,
-    left: 34,
-    width: 375,
-    height: 46,
     borderBottomWidth: 1,
     borderBottomColor: '#000',
+    marginBottom: 10,
+    paddingBottom: 6,
   },
-  inputNome: { fontSize: 22, width: 300, height: 46 },
-  inputSobrenomeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 475,
-    left: 34,
-    width: 375,
-    height: 46,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
+
+  icon: {
+    marginRight: 10,
   },
-  inputSobrenome: { fontSize: 22, width: 300, height: 46 },
-  inputTelefoneContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 537,
-    left: 34,
-    width: 375,
-    height: 46,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
+
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: '#000',
   },
-  inputTelefone: { fontSize: 22, width: 300, height: 46 },
-  inputEmailContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 599,
-    left: 34,
-    width: 375,
-    height: 46,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-  },
-  inputEmail: { fontSize: 22, width: 300, height: 46 },
-  inputSenhaContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 661,
-    left: 34,
-    width: 375,
-    height: 46,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-  },
-  inputSenha: { fontSize: 22, width: 300, height: 46 },
+
   button: {
     backgroundColor: '#2257BA',
-    position: 'absolute',
-    top: 750,
-    width: 337,
     height: 52,
     borderRadius: 30,
     justifyContent: 'center',
-    alignSelf: 'center',
+    alignItems: 'center',
+    marginTop: 8,
+    marginBottom: 8,
   },
-  buttonText: { fontSize: 18, color: '#fff', textAlign: 'center' },
+
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+
   linkVoltar: {
-    position: 'absolute',
-    top: 500,
-    right: 55,
+    textAlign: 'right',
+    right: '3%',
     fontSize: 16,
-    color: '#14508bff',
+    color: '#14508b',
   },
 });

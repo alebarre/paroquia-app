@@ -4,6 +4,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
 import { globalStyles } from '../../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
+import TituloParoquia from '../../components/tituloParaoquia';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -20,7 +21,7 @@ export default function HomeScreen() {
   return (
      <View style={globalStyles.container}>
       <ImageBackground source={require('../../../assets/backgroundHome.png')} style={{ flex: 1, width: '100%', height: '100%' }} resizeMode="cover">
-        <Text style={[globalStyles.title, { fontFamily: 'SeoulHangang-CEB', fontSize: 90 }]} >Paróquia de São Sebastião de Itaipu</Text>
+        <TituloParoquia />
 
         <Text style={[globalStyles.subTitle, { fontFamily: 'SeoulHangang-CEB', fontSize: 35, color: '#00000098' }]}>
           Aqui você acompanha os eventos, rifas, dízimos e muito mais.

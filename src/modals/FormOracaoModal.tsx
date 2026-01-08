@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Modal,
-  StyleSheet,
   TouchableOpacity,
   Text,
   View,
@@ -13,6 +12,7 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { Picker } from '@react-native-picker/picker';
+import { Dimensions, StyleSheet } from "react-native";
 
 
 type Props = {
@@ -81,74 +81,76 @@ export default function FormOracaoModal({ visible, onClose, onSubmit }: Props) {
   const locaisValidos = locais.filter((loc) => typeof loc.nome === "string" && loc.nome.trim() !== "");
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <View style={styles.overlay}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <View style={styles.modalBox}>
-            <Text style={styles.header}>Formulário de Pedido de Oração</Text>
+  <Modal visible={visible} transparent animationType="fade">
+    <View style={styles.overlay}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.keyboardView}
+      >
+        <View style={styles.modalBox}>
+          <Text style={styles.header}>Formulário de Pedido de Oração</Text>
 
-            <ScrollView
-              style={styles.content}
-              keyboardShouldPersistTaps="handled"
-            >
+          <ScrollView
+            style={styles.content}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <TextInput
+              placeholder="Quem está pedindo? (opcional)"
+              style={styles.input}
+              value={nomeDeQuemPede}
+              onChangeText={setNomeDeQuemPede}
+            />
 
-              <TextInput
-                placeholder="Quem está pedindo? (opcional)"
-                style={styles.input}
-                value={nomeDeQuemPede}
-                onChangeText={setNomeDeQuemPede}
-              />
+            <Text style={styles.pickerLabel}>Onde será lido:</Text>
 
-              <Text style={styles.pickerLabel}>Onde será lido:</Text>
-              <View style={styles.pickerContainer}>
-                <Picker
-                  
-                  selectedValue={localSelecionado}
-                  onValueChange={(valor) => setLocalSelecionado(valor)}
-                  style={styles.picker}
-                >
-                  <Picker.Item label="Selecione um local" value="" />
-
-                  {locaisValidos.map((loc) => (
-                    <Picker.Item key={loc.id} label={loc.nome} value={loc.nome} />
-                  ))}
-                </Picker>
-              </View>
-
-              <TextInput
-                placeholder="Seu pedido de oração"
-                multiline
-                numberOfLines={4}
-                style={[styles.input, styles.textArea]}
-                value={intencao}
-                onChangeText={setIntencao}
-              />
-            </ScrollView>
-
-            <View style={styles.footerButtons}>
-              <TouchableOpacity
-                style={[styles.button, styles.buttonCancelar]}
-                onPress={onClose}
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={localSelecionado}
+                onValueChange={(valor) => setLocalSelecionado(valor)}
+                style={styles.picker}
               >
-                <Text style={styles.buttonText}>Cancelar</Text>
-              </TouchableOpacity>
+                <Picker.Item label="Selecione um local" value="" />
 
-              <TouchableOpacity
-                style={[styles.button, styles.buttonEnviar]}
-                onPress={handleEnviar}
-              >
-                <Text style={styles.buttonText}>Enviar Pedido</Text>
-              </TouchableOpacity>
+                {locaisValidos.map((loc) => (
+                  <Picker.Item key={loc.id} label={loc.nome} value={loc.nome} />
+                ))}
+              </Picker>
             </View>
+
+            <TextInput
+              placeholder="Seu pedido de oração"
+              multiline
+              numberOfLines={4}
+              style={[styles.input, styles.textArea]}
+              value={intencao}
+              onChangeText={setIntencao}
+            />
+          </ScrollView>
+
+          <View style={styles.footerButtons}>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonCancelar]}
+              onPress={onClose}
+            >
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.button, styles.buttonEnviar]}
+              onPress={handleEnviar}
+            >
+              <Text style={styles.buttonText}>Enviar Pedido</Text>
+            </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      </View>
-    </Modal>
-  );
+        </View>
+      </KeyboardAvoidingView>
+    </View>
+  </Modal>
+);
 }
+
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   overlay: {
@@ -156,74 +158,97 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.6)",
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 20,
   },
+
+  keyboardView: {
+    flex: 1,
+    justifyContent: "center",
+    width: "100%",
+  },
+
   modalBox: {
-    width: 400,
-    maxHeight: "95%",
+    width: "100%",
+    maxWidth: 420,
+    maxHeight: "90%",
+    backgroundColor: "#ffffffee",
     borderRadius: 12,
-    paddingTop: 16,
-    paddingHorizontal: 16,
-    paddingBottom: 10,
-    backgroundColor: "#ffffffbb",
+    padding: 20,
   },
+
   header: {
-    fontSize: 20,
+    fontSize: width * 0.055,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 12,
+    marginBottom: 20,
+    color: "#333",
   },
+
   content: {
-    maxHeight: 380,
+    flexGrow: 1,
+    marginBottom: 10,
   },
+
   input: {
-    borderColor: "gray",
+    borderColor: "#777",
     borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
     marginBottom: 16,
     fontSize: 16,
+    backgroundColor: "#fff",
   },
+
   textArea: {
-    height: 150,
+    height: 140,
     textAlignVertical: "top",
   },
-  footerButtons: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginTop: 8,
-    gap: 8,
-  },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 6,
-  },
-  buttonCancelar: {
-    backgroundColor: "#f44336",
-  },
-  buttonEnviar: {
-    backgroundColor: "#4CAF50",
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontWeight: "bold",
+
+  pickerLabel: {
     fontSize: 16,
+    marginBottom: 6,
+    fontWeight: "600",
+    color: "#333",
   },
 
   pickerContainer: {
-  borderRadius: 8,
-  borderWidth: 1,
-  borderColor: "#835d5dff",
-  marginBottom: 15,
-},
-picker: {
-  height: 50,
-  width: "100%",
-},
-pickerLabel: {
-  fontSize: 16,
-  marginBottom: 8,
-}
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#777",
+    marginBottom: 16,
+    backgroundColor: "#fff",
+  },
 
+  picker: {
+    height: 50,
+    width: "100%",
+  },
+
+  footerButtons: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginTop: 10,
+    gap: 10,
+  },
+
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+
+  buttonCancelar: {
+    backgroundColor: "#f44336",
+  },
+
+  buttonEnviar: {
+    backgroundColor: "#4CAF50",
+  },
+
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
 });
