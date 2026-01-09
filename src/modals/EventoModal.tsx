@@ -58,60 +58,77 @@ export default function EventoModal({ visible, evento, onClose }: EventoModalPro
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(0,0,0,0.45)", // mais suave
     justifyContent: "center",
     alignItems: "center",
   },
+
   modalBox: {
     width: "85%",
     height: "75%",
-    backgroundColor: "#ffffffc9",
+    backgroundColor: "#fffaf3", // tom quente e acolhedor
     borderRadius: 12,
     overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "#f0e0d0", // borda suave e elegante
   },
+
   headerImage: {
     width: "100%",
     height: 180,
     justifyContent: "flex-end",
   },
+
   headerOverlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.63)",
+    backgroundColor: "rgba(0, 0, 0, 0.35)", // menos escuro, deixa a imagem respirar
     padding: 12,
   },
+
   titulo: {
     fontSize: 32,
     fontWeight: "bold",
     color: "#fff",
+    textShadowColor: "rgba(0,0,0,0.4)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
+
   data: {
     fontSize: 22,
-    color: "#eee",
+    color: "#f7f2e9", // tom mais quente
     marginTop: 4,
   },
-    local: {
+
+  local: {
     fontSize: 18,
-    color: "#ddd",
+    color: "#f3e9d8",
     marginTop: 2,
   },
+
   content: {
     padding: 15,
   },
+
   descricao: {
-    fontSize: 32,
+    fontSize: 28,
     lineHeight: 32,
-    color: "#333",
+    color: "#5a3e36", // marrom suave, acolhedor
+    fontWeight: "600",
   },
-    descricaoDetalhada: {
-    fontSize: 20,
-    lineHeight: 28,
-    color: "#555",
+
+  descricaoDetalhada: {
+    fontSize: 18,
+    lineHeight: 26,
+    color: "#6b4f4f", // tom quente e leve
     marginTop: 12,
-  },    
+  },
+
   botaoFechar: {
-    backgroundColor: "#2f3640",
+    backgroundColor: "#be1237ff", // cor da paróquia, viva e alegre
     padding: 14,
     justifyContent: "center",
   },
+
   botaoTexto: {
     color: "#fff",
     textAlign: "center",

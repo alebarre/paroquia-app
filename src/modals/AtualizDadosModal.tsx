@@ -43,7 +43,7 @@ export default function AtualizaarDadosModal({ visible, onAtualizar, onClose }: 
               style={[styles.modalButton, styles.buttonUpdate]}
               onPress={() => {
                 onClose();
-                onAtualizar(); // <-- abre modal de formulário
+                onAtualizar(); 
               }}
             >
               <Text style={styles.buttonText}>Atualizar dados</Text>
@@ -57,62 +57,60 @@ export default function AtualizaarDadosModal({ visible, onAtualizar, onClose }: 
 }
 
 const styles = StyleSheet.create({
-    
-    modalOverlay: {
-        flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
-    modalContent: {
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 30,
-        width: '80%',
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
+  modalContent: {
+    backgroundColor: '#fffaf3d5', 
+    borderRadius: 20,
+    padding: 30,
+    width: '80%',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#f0e0d0',
+    shadowColor: '#e1cfcf',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
 
-    modalTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#0a1d8a',
-        marginBottom: 30,
-        textAlign: 'center',
-    },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#6b3e3e',
+    marginBottom: 30,
+    textAlign: 'center',
+  },
 
-    modalButtons: {
-        flexDirection: 'row',
-        gap: 15,
-    },
+  modalButtons: {
+    flexDirection: 'row',
+    gap: 5,
+  },
 
-    modalButton: {
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        minWidth: 120,
-        alignItems: 'center',
-    },
+  modalButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    minWidth: 120,
+    alignItems: 'center',
+  },
 
-        buttonLater: {
-        backgroundColor: '#888',
-    },
+  buttonLater: {
+    backgroundColor: '#be9d83ff',
+  },
 
-    buttonUpdate: {
-        backgroundColor: '#0a1d8a',
-    },
+  buttonUpdate: {
+    backgroundColor: '#ba227d', 
+  },
 
-    buttonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

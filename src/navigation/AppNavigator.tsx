@@ -15,59 +15,58 @@ const Tab = createBottomTabNavigator();
 export default function AppNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarBadgeStyle: { backgroundColor: '#ff6347' },
-        tabBarStyle: {
-          paddingTop: 5, 
-          width: '100%',
-          height: 80,
-          backgroundColor: '#2c3e50ff',
-          borderTopColor: '#1a252fff',
-        },
-        tabBarActiveBackgroundColor: '#5783afff',
-        tabBarActiveTintColor: '#d8dfe9ff',
-        tabBarInactiveTintColor: '#7694bbff',
-        tabBarIcon: ({ color, size }) => {
-          let iconName: string;
+  screenOptions={({ route }) => ({
+    headerShown: false,
+    tabBarStyle: {
+      height: 90,
+      backgroundColor: '#2c3e50ff',
+      borderTopColor: '#1a252fff',
+    },
+    tabBarLabelStyle: {
+      fontSize: 10,
+    },
+    tabBarActiveTintColor: '#d8dfe9ff',
+    tabBarInactiveTintColor: '#7694bbff',
+    tabBarIcon: ({ color, size }) => {
+      let iconName: string;
 
-          switch (route.name) {
-            case 'Início':
-              iconName = 'home-outline';
-              break;
-            case 'Eventos':
-              iconName = 'calendar-outline';
-              break;
-            case 'Rifas':
-              iconName = 'gift-outline';
-              break;
-            case 'Dízimos':
-              iconName = 'cash-outline';
-              break;
-            case 'Doações':
-              iconName = 'heart-outline';
-              break;
-            case 'Oração':
-              iconName = 'hand-left-outline';
-              break;
-            case 'Perfil':
-              iconName = 'person-outline';
-              break;
-            default:
-              iconName = 'ellipse-outline';
-          }
+      switch (route.name) {
+        case 'Início':
+          iconName = 'home-outline';
+          break;
+        case 'Eventos':
+          iconName = 'calendar-outline';
+          break;
+        case 'Rifas':
+          iconName = 'gift-outline';
+          break;
+        case 'Dízimos':
+          iconName = 'cash-outline';
+          break;
+        case 'Doações':
+          iconName = 'heart-outline';
+          break;
+        case 'Oração':
+          iconName = 'hand-left-outline';
+          break;
+        case 'Perfil':
+          iconName = 'person-outline';
+          break;
+        default:
+          iconName = 'ellipse-outline';
+      }
 
-          return <Ionicons name={iconName as any} size={size} color={color} />;
-        },
-      })}
-    >
-      <Tab.Screen name="Início" component={HomeScreen} />
-      <Tab.Screen name="Eventos" component={EventsScreen} />
-      <Tab.Screen name="Rifas" component={RafflesScreen} />
-      <Tab.Screen name="Dízimos" component={TithesScreen} />
-      <Tab.Screen name="Doações" component={DonationsScreen} />
-      <Tab.Screen name="Oração" component={PrayerRequestScreen} />
-      <Tab.Screen name="Perfil" component={ProfileScreen} />
-    </Tab.Navigator>
+      return <Ionicons name={iconName as any} size={20} color={color} />;
+    },
+  })}
+>
+  <Tab.Screen name="Início" component={HomeScreen} />
+  <Tab.Screen name="Eventos" component={EventsScreen} />
+  <Tab.Screen name="Rifas" component={RafflesScreen} />
+  <Tab.Screen name="Dízimos" component={TithesScreen} />
+  <Tab.Screen name="Doações" component={DonationsScreen} />
+  <Tab.Screen name="Oração" component={PrayerRequestScreen} />
+  <Tab.Screen name="Perfil" component={ProfileScreen} />
+</Tab.Navigator>
   );
 }

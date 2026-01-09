@@ -19,6 +19,7 @@ import Arroba from '../../../assets/svg/Arroba';
 import Telefone from '../../../assets/svg/Telefone';
 import { Dimensions, StyleSheet } from 'react-native';
 import TituloParoquia from '../../components/tituloParaoquia';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -85,105 +86,110 @@ export default function RegisterScreen() {
   };
 
   return (
-  <View style={styles.container}>
-    <ImageBackground
-      source={require('../../../assets/backgroundHome.png')}
-      style={styles.background}
-      resizeMode="cover"
+  <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+  >
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
     >
-      <TituloParoquia />
+      <ImageBackground
+        source={require('../../../assets/backgroundHome.png')}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        <TituloParoquia />
 
-      <Text style={styles.title}>Novo Usuário</Text>
+        <Text style={styles.title}>Novo Usuário</Text>
 
-      {/* Nome */}
-      <View style={styles.inputRow}>
-        <User width={24} height={24} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Nome"
-          value={nome}
-          onChangeText={setNome}
-        />
-      </View>
+        {/* Nome */}
+        <View style={styles.inputRow}>
+          <User width={24} height={24} style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Nome"
+            value={nome}
+            onChangeText={setNome}
+          />
+        </View>
 
-      {/* Sobrenome */}
-      <View style={styles.inputRow}>
-        <Users width={24} height={24} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Sobrenome"
-          value={sobrenome}
-          onChangeText={setSobrenome}
-        />
-      </View>
+        {/* Sobrenome */}
+        <View style={styles.inputRow}>
+          <Users width={24} height={24} style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Sobrenome"
+            value={sobrenome}
+            onChangeText={setSobrenome}
+          />
+        </View>
 
-      {/* Telefone */}
-      <View style={styles.inputRow}>
-        <Telefone width={24} height={24} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Telefone"
-          value={telefone}
-          onChangeText={setTelefone}
-          keyboardType="phone-pad"
-        />
-      </View>
+        {/* Telefone */}
+        <View style={styles.inputRow}>
+          <Telefone width={24} height={24} style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Telefone"
+            value={telefone}
+            onChangeText={setTelefone}
+            keyboardType="phone-pad"
+          />
+        </View>
 
-      {/* Email */}
-      <View style={styles.inputRow}>
-        <Arroba width={24} height={24} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-      </View>
+        {/* Email */}
+        <View style={styles.inputRow}>
+          <Arroba width={24} height={24} style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+        </View>
 
-      {/* Senha */}
-      <View style={styles.inputRow}>
-        <Cadeado width={24} height={24} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry
-        />
-      </View>
+        {/* Senha */}
+        <View style={styles.inputRow}>
+          <Cadeado width={24} height={24} style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Senha"
+            value={senha}
+            onChangeText={setSenha}
+            secureTextEntry
+          />
+        </View>
 
-      {/* Botão cadastrar */}
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Cadastrar</Text>
-      </TouchableOpacity>
+        {/* Botão cadastrar */}
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <Text style={styles.buttonText}>Cadastrar</Text>
+        </TouchableOpacity>
 
-      {/* Voltar */}
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.linkVoltar}>Voltar ao login</Text>
-      </TouchableOpacity>
-    </ImageBackground>
-  </View>
-  );
+        {/* Voltar */}
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.linkVoltar}>Voltar ao login</Text>
+        </TouchableOpacity>
+      </ImageBackground>
+    </ScrollView>
+  </KeyboardAvoidingView>
+);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
   background: {
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 80,
+    paddingBottom: 10,
   },
 
   title: {
-    fontSize: width * 0.065,
+    fontSize: 32,
     fontWeight: 'bold',
     color: '#726767',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
 
   inputRow: {
@@ -192,7 +198,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#000',
     marginBottom: 10,
-    paddingBottom: 6,
   },
 
   icon: {
@@ -211,8 +216,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 20,
+    marginBottom: 10,
   },
 
   buttonText: {
@@ -222,8 +227,7 @@ const styles = StyleSheet.create({
   },
 
   linkVoltar: {
-    textAlign: 'right',
-    right: '3%',
+    textAlign: 'center',
     fontSize: 16,
     color: '#14508b',
   },

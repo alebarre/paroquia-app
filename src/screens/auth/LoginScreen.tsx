@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, ImageBackground, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
 import { globalStyles } from '../../styles/globalStyles';
@@ -61,102 +61,84 @@ export default function LoginScreen() {
   }
 
   return (
-  <View style={styles.container}>
-    <ImageBackground
-      source={require('../../../assets/backgroundHome.png')}
-      style={styles.background}
-      resizeMode="cover"
+  <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+  >
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
     >
-      <TituloParoquia />
-
-      {/* Subtítulo */}
-      <Text style={styles.textEntrar}>Entrar</Text>
-
-      {/* Campo Email */}
-      <View style={styles.inputRow}>
-        <Arroba width={24} height={24} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Digite seu email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
-
-      {/* Campo Senha */}
-      <View style={styles.inputRow}>
-        <Cadeado width={24} height={24} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Digite sua senha"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry
-        />
-      </View>
-
-      {/* Esqueci a senha */}
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.linkEsqueciSenha}>Esqueci a senha</Text>
-      </TouchableOpacity>
-
-      {/* Botão Entrar */}
-      <TouchableOpacity
-        style={styles.buttonEntrar}
-        onPress={handleLogin}
-        disabled={loading}
+      <ImageBackground
+        source={require('../../../assets/backgroundHome.png')}
+        style={styles.background}
+        resizeMode="cover"
       >
-        <Text style={styles.buttonText}>
-          {loading ? 'Entrando...' : 'Acessar'}
-        </Text>
-      </TouchableOpacity>
+        <TituloParoquia />
 
-      {/* OU */}
-      <Text style={styles.textOu}>Ou</Text>
+        <Text style={styles.textEntrar}>Entrar</Text>
 
-      {/* Botão Google */}
-      <TouchableOpacity
-        style={styles.buttonEntrarGoogle}
-        onPress={handleEntrarGoogle}
-        disabled={loading}
-      >
-        <GoogleLogo width={24} height={24} style={styles.googleIcon} />
-        <Text style={styles.buttonText}>Entrar com Google</Text>
-      </TouchableOpacity>
+        <View style={styles.inputRow}>
+          <Arroba width={24} height={24} style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Digite seu email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
 
-      {/* Criar conta */}
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.linkCriarConta}>
-          Ainda não possui conta? <Text style={styles.bold}>CADASTRE-SE</Text>
-        </Text>
-      </TouchableOpacity>
-    </ImageBackground>
-  </View>
-);}
+        <View style={styles.inputRow}>
+          <Cadeado width={24} height={24} style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Digite sua senha"
+            value={senha}
+            onChangeText={setSenha}
+            secureTextEntry
+          />
+        </View>
+
+        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+          <Text style={styles.linkEsqueciSenha}>Esqueci a senha</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonEntrar} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Acessar</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.textOu}>Ou</Text>
+
+        <TouchableOpacity style={styles.buttonEntrarGoogle} onPress={handleEntrarGoogle}>
+          <GoogleLogo width={24} height={24} style={styles.googleIcon} />
+          <Text style={styles.buttonText}>Entrar com Google</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.linkCriarConta}>
+            Ainda não possui conta? CADASTRE-SE
+          </Text>
+        </TouchableOpacity>
+      </ImageBackground>
+    </ScrollView>
+  </KeyboardAvoidingView>
+);
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
 
-  background: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 80,
-  },
+background: {
+  flex: 1,
+  paddingHorizontal: 24,
+  paddingTop: 80,
+  paddingBottom: 40,
+},
 
-  paroquiaTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: 40,
-    textShadowColor: '#000',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 4,
-  },
 
   textEntrar: {
     fontSize: 32,

@@ -186,41 +186,53 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 80,
-    paddingBottom: 40, // evita corte no final
+    paddingBottom: 40,
   },
 
   header: {
-    color: '#00000093',
-    fontSize: 42,
+    color: '#6b3e3e', // tom quente e espiritual
+    fontSize: 36,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
   },
 
   userContainer: {
-    margin: 2,
     marginBottom: 20,
-    padding: 10,
-    backgroundColor: '#0a1d8a41',
-    borderRadius: 10,
+    padding: 16,
+    backgroundColor: '#fffaf393', // fundo claro e acolhedor
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#f0e0d0',
+    shadowColor: '#e1cfcf',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
 
   user: {
-    fontSize: 40,
+    fontSize: 32,
     fontWeight: 'bold',
+    color: '#5a3e36',
+    marginBottom: 4,
   },
 
   email: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#2b2121ff',
+    fontWeight: '600',
+    color: '#7a4e4e',
   },
 
   addressContainer: {
-    margin: 2,
-    padding: 10,
-    backgroundColor: '#0a1d8a41',
-    borderRadius: 10,
+    padding: 16,
+    backgroundColor: '#fffaf393',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#f0e0d0',
+    shadowColor: '#e1cfcf',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
 
   campoContainer: {
@@ -230,13 +242,15 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
+    color: '#6b3e3e',
     width: '40%',
   },
 
   campo: {
     fontSize: 16,
+    color: '#3c3c3c',
     flexShrink: 1,
   },
 });
